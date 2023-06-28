@@ -3,6 +3,7 @@ package com.cognixia.jump.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -36,7 +37,10 @@ public class SecurityConfiguration {
 		
 		http.cors().and().csrf().disable()
 		.authorizeRequests()
-		.antMatchers("/api/").permitAll()
+		.antMatchers("/authenticate").permitAll()
+		.antMatchers(HttpMethod.POST, "/api/user").permitAll()
+		.antMatchers(HttpMethod.GET, "/api/user/*").hasRole("USER")
+		.antMatchers(HttpMethod.DELETE, "/api/user/*").hasRole("ADMIN")
 		.anyRequest().authenticated()
 		.and()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
