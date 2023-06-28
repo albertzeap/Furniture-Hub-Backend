@@ -4,6 +4,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -115,6 +116,18 @@ public class UserControllerTests {
 	}
 	
 	@Test
+	void testInvalidGetUserById() throws Exception {
+		String uri = STARTING_URI + "/user/1";
+		User user = new User(1, "Albert", "Paez", "2093287162", "albertzeap", "password", User.Role.ROLE_ADMIN, true, null);
+		when(userService.getUserById(1)).thenReturn(user);
+		
+		mvc.perform(get(uri).content(user.toJson())
+			.contentType(MediaType.APPLICATION_JSON_VALUE))
+			.andDo(print())
+			.andExpect(status().isBadRequest());
+	}
+	
+	@Test
 	void testCreateUser() throws Exception {
 		
 		String uri = STARTING_URI + "/user";
@@ -145,6 +158,20 @@ public class UserControllerTests {
 			.contentType(MediaType.APPLICATION_JSON_VALUE))
 	        .andDo(print())
 	        .andExpect(status().isBadRequest());
+		
+	}
+	
+	@Test 
+	void testDeleteUser() throws Exception {
+		String uri = STARTING_URI + "/user";
+		User user = new User(1, "Albert", "Paez", "2093287162", "albertzeap", "password", User.Role.ROLE_ADMIN, true, null);
+		
+		when(userService.deleteUser(1)).thenReturn(user);
+		
+		mvc.perform(delete(uri).content(user.toJson())
+				.contentType(MediaType.APPLICATION_JSON_VALUE))
+				.andDo(print())
+				.andExpect(status().isOk());
 		
 	}
 	

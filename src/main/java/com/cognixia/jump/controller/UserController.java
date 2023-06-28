@@ -42,7 +42,7 @@ public class UserController {
 	@PostMapping("/user")
 	public ResponseEntity<?> createUser(@Valid @RequestBody User user){
 		
-		//TODO
+		
 		
 		
 		return ResponseEntity.status(201).body(null);

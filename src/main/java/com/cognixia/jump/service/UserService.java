@@ -34,4 +34,10 @@ public class UserService {
 		return null;
 	}
 	
+	public User deleteUser(int id) {
+		// TODO
+		
+		return null;
+	}
+	
 }
