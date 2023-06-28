@@ -156,6 +156,18 @@ public class User implements Serializable {
 				+ ", orders=" + orders + "]";
 	}
 	
+	public String toJson() {
+
+		return "{\"id\" : " + id 
+				+ ", \"firstName\" : \"" + firstName + "\""
+				+ ", \"lastName\" : \"" + lastName + "\""
+				+ ", \"phoneNumber\" : \"" + phoneNumber + "\""
+				+ ", \"username\" : \"" + username + "\""
+				+ ", \"password\" : \"" + password + "\""
+				+ ", \"role\" : \"" + role + "\""
+				+ ", \"enabled\" : \"" + enabled + "\"}";
+	}
+	
 	
 
 	
