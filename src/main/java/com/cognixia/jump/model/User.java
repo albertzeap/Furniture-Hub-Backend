@@ -62,6 +62,10 @@ public class User implements Serializable {
 	@JsonProperty( access = Access.WRITE_ONLY )
 	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
 	private List<Order> orders;
+	
+	public User() {
+		
+	}
 
 	public User(Integer id, @NotBlank String firstName, @NotBlank String lastName, @NotBlank String phoneNumber,
 			@NotBlank String username, @NotBlank String password, Role role, Boolean enabled, List<Order> orders) {

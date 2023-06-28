@@ -42,6 +42,10 @@ public class Order implements Serializable {
 	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
 	private List<Product> products;
 
+	public Order() {
+		
+	}
+	
 	public Order(Integer id, LocalDateTime orderDate, User user, List<Product> products) {
 		super();
 		this.id = id;

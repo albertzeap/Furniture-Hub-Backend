@@ -38,6 +38,7 @@ public class AuthenticationController {
 		}
 		
 		final UserDetails userDetails = userDetailsService.loadUserByUsername(request.getUsername());
+		System.out.println("USER DETAILS " + userDetails);
 		
 		final String jwt = jwtUtil.generateTokens(userDetails);
 		

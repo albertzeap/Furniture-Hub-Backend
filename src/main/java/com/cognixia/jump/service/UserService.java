@@ -1,6 +1,7 @@
 package com.cognixia.jump.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,30 +15,50 @@ public class UserService {
 	@Autowired
 	UserRepo userRepo;
 
-	public List<User> getUsers() {
+	public List<User> getUsers() throws Exception {
 	
-		//TODO
+		List<User> users = userRepo.findAll();
 		
-		return null;
+		return users;
 	}
 	
-	public User getUserById(int id) {
-		// TODO
+	public User getUserById(int id) throws Exception {
 		
-		return null;
+		Optional<User> user = userRepo.findById(id);
+		
+		if(user.isEmpty()) {
+			throw new Exception();
+		}
+		
+		return user.get();
 	}
 	
-	public User createUser(User user) {
+	public User createUser(User user) throws Exception {
 		
-		//TODO
+		Optional<User> exists = userRepo.findByUsername(user.getUsername());
+		if(exists.isPresent()) {
+			throw new Exception();
+		}
 		
-		return null;
+		// Set id to null for auto increment
+		user.setId(null);
+		
+		User created = userRepo.save(user);
+		
+		return created;
 	}
 	
-	public User deleteUser(int id) {
-		// TODO
+	public User deleteUser(int id) throws Exception {
 		
-		return null;
+		Optional<User> exists = userRepo.findById(id);
+		if(exists.isEmpty()) {
+			throw new Exception();
+		}
+		
+		User deleted = exists.get();
+		userRepo.delete(exists.get());
+		
+		return deleted;
 	}
 	
 }

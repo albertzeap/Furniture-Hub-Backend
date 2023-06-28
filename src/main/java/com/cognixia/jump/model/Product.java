@@ -50,6 +50,10 @@ public class Product implements Serializable{
 	@ManyToOne
 	@JoinColumn(name = "order_id", referencedColumnName = "id")
 	private Order order;
+	
+	public Product() {
+		
+	}
 
 	public Product(Integer id, @NotBlank String productName, @NotEmpty @Min(0) Integer stock, @Min(0) double price,
 			@NotBlank String image, @NotBlank String description, Order order) {
