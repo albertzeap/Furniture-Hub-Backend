@@ -37,10 +37,27 @@ public class SecurityConfiguration {
 		
 		http.cors().and().csrf().disable()
 		.authorizeRequests()
+		
+		// Authentication and User controller 
 		.antMatchers("/authenticate").permitAll()
 		.antMatchers(HttpMethod.POST, "/api/user").permitAll()
 		.antMatchers(HttpMethod.GET, "/api/user/*").hasRole("USER")
 		.antMatchers(HttpMethod.DELETE, "/api/user/*").hasRole("ADMIN")
+		
+		// Order controller config
+		.antMatchers(HttpMethod.GET, "/api/order").hasRole("ADMIN")
+		.antMatchers(HttpMethod.GET, "/api/order/*").hasAnyRole("ADMIN", "USER")
+		.antMatchers(HttpMethod.GET, "/api/order/user/*").hasAnyRole("ADMIN", "USER")
+		.antMatchers(HttpMethod.POST, "/api/order").hasAnyRole("ADMIN", "USER")
+		.antMatchers(HttpMethod.DELETE, "/api/order/*").hasRole("ADMIN")
+		
+		// Product controller config
+		.antMatchers(HttpMethod.GET, "/api/product").permitAll()
+		.antMatchers(HttpMethod.GET, "/api/product/*").permitAll()
+		.antMatchers(HttpMethod.POST, "/api/product").hasRole("ADMIN")
+		.antMatchers(HttpMethod.PUT, "/api/product").hasRole("ADMIN")
+		.antMatchers(HttpMethod.DELETE, "/api/product/*").hasRole("ADMIN")
+		
 		.anyRequest().authenticated()
 		.and()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
