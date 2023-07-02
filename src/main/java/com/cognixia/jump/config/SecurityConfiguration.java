@@ -41,7 +41,7 @@ public class SecurityConfiguration {
 		// Authentication and User controller 
 		.antMatchers("/authenticate").permitAll()
 		.antMatchers(HttpMethod.POST, "/api/user").permitAll()
-		.antMatchers(HttpMethod.GET, "/api/user/*").hasRole("USER")
+		.antMatchers(HttpMethod.GET, "/api/user/*").hasAnyRole("ADMIN","USER")
 		.antMatchers(HttpMethod.DELETE, "/api/user/*").hasRole("ADMIN")
 		
 		// Order controller config
