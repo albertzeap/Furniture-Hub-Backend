@@ -50,7 +50,7 @@ public class OrderController {
 	}
 	
 	@PostMapping("/order")
-	public ResponseEntity<?> createOrder(@Valid @RequestBody Order order){
+	public ResponseEntity<?> createOrder(@Valid @RequestBody Order order) throws Exception{
 		
 		Order created = orderService.createOrder(order);
 		

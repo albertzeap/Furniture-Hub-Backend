@@ -47,6 +47,7 @@ public class Product implements Serializable{
 	@NotBlank
 	private String description;
 	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "order_id", referencedColumnName = "id")
 	private Order order;
