@@ -128,6 +128,16 @@ public class Product implements Serializable{
 		return "Product [id=" + id + ", productName=" + productName + ", stock=" + stock + ", price=" + price
 				+ ", image=" + image + ", description=" + description + ", order=" + order + "]";
 	}
+
+	public String toJson() {
+		// TODO Auto-generated method stub
+		return "{\"id\" : " + id 
+				+ ", \"productName\" : \"" + productName + "\""
+				+ ", \"stock\" : \"" + stock + "\""
+				+ ", \"price\" : \"" + price + "\""
+				+ ", \"image\" : \"" + image + "\""
+				+ ", \"description\" : \"" + description + "\"}";
+	}
 	
 	
 	

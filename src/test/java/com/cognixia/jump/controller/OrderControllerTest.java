@@ -4,7 +4,9 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -16,6 +18,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -105,6 +108,47 @@ public class OrderControllerTest {
 		verify(orderService, times(1)).getUserOrders(1);
 		verifyNoMoreInteractions(orderService);
 		
+	}
+	
+	@Test 
+	void createOrder() throws Exception {
+		
+		String uri = STARTING_URI + "/order";
+		User user = new User(1, "Albert", "Paez", "2093287162", "albertzeap", "password", Role.ROLE_ADMIN , true, null);
+		Order order = new Order(1, LocalDateTime.now(), user, null);
+		
+		List<Order> orders = new ArrayList<>();
+		orders.add(order);
+		user.setOrders(orders);
+		
+		when(orderService.createOrder(Mockito.any(Order.class)));
+		
+		mvc.perform(post(uri).content(order.toJson()) // data sent in body NEEDS to be in JSON format
+				.contentType(MediaType.APPLICATION_JSON_VALUE))
+				.andDo(print())
+				.andExpect(status().isCreated())
+				.andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE));
+		
+		
+	}
+	
+	@Test
+	void deleteOrder() throws Exception {
+		
+		String uri = STARTING_URI + "/order";
+		User user = new User(1, "Albert", "Paez", "2093287162", "albertzeap", "password", Role.ROLE_ADMIN , true, null);
+		Order order = new Order(1, LocalDateTime.now(), user, null);
+		
+		List<Order> orders = new ArrayList<>();
+		orders.add(order);
+		user.setOrders(orders);
+		
+		when(orderService.deleteOrder(user.getOrders().get(0).getId())).thenReturn(order);
+		
+		mvc.perform(delete(uri).content(user.toJson())
+				.contentType(MediaType.APPLICATION_JSON_VALUE))
+				.andDo(print())
+				.andExpect(status().isOk());
 	}
 	
 	
