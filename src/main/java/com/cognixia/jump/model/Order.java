@@ -90,6 +90,13 @@ public class Order implements Serializable {
 	public String toString() {
 		return "Order [id=" + id + ", orderDate=" + orderDate + ", user=" + user + ", products=" + products + "]";
 	}
+
+	public String toJson() {
+		// TODO Auto-generated method stub
+		return "{\"id\" : " + id 
+				+ ", \"orderDate\" : \"" + orderDate + "\""
+				+ ", \"products\" : \"" + products + "\"}";
+	}
 	
 	
 	
