@@ -29,6 +29,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.cognixia.jump.filter.JwtRequestFilter;
 import com.cognixia.jump.model.Order;
+import com.cognixia.jump.model.Product;
 import com.cognixia.jump.model.User;
 import com.cognixia.jump.model.User.Role;
 import com.cognixia.jump.service.OrderService;
@@ -82,12 +83,16 @@ public class OrderControllerTest {
 		
 		String uri = STARTING_URI + "/order/user/1";
 		
+		List<Product> products = new ArrayList<>();		
+		products.add(new Product(1, "Chair", 100, 100.99, "", "A chair", null ));
+		products.add(new Product(2, "Desk", 100, 149.99, "", "A desk", null));
+		
 		List<Order> orders = new ArrayList<>();
 		User user = new User(1, "Albert", "Paez", "2093287162", "albertzeap", "password", Role.ROLE_ADMIN , true, orders);
 		
 		
-		orders.add(new Order(1, LocalDateTime.now(), user, null));
-		orders.add(new Order(2, LocalDateTime.now(), user, null));
+		orders.add(new Order(1, LocalDateTime.now(), user, products));
+		orders.add(new Order(2, LocalDateTime.now(), user, products));
 		
 		when(orderService.getUserOrders(1)).thenReturn(orders);
 		
@@ -121,7 +126,7 @@ public class OrderControllerTest {
 		orders.add(order);
 		user.setOrders(orders);
 		
-		when(orderService.createOrder(Mockito.any(Order.class)));
+		when(orderService.createOrder(Mockito.any(Order.class))).thenReturn(order);
 		
 		mvc.perform(post(uri).content(order.toJson()) // data sent in body NEEDS to be in JSON format
 				.contentType(MediaType.APPLICATION_JSON_VALUE))
@@ -145,7 +150,7 @@ public class OrderControllerTest {
 		
 		when(orderService.deleteOrder(user.getOrders().get(0).getId())).thenReturn(order);
 		
-		mvc.perform(delete(uri).content(user.toJson())
+		mvc.perform(delete(uri).content(order.toJson())
 				.contentType(MediaType.APPLICATION_JSON_VALUE))
 				.andDo(print())
 				.andExpect(status().isOk());
