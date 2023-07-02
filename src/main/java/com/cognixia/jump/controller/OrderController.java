@@ -2,6 +2,8 @@ package com.cognixia.jump.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -48,11 +50,11 @@ public class OrderController {
 	}
 	
 	@PostMapping("/order")
-	public ResponseEntity<?> createOrder(@RequestBody Order order){
+	public ResponseEntity<?> createOrder(@Valid @RequestBody Order order){
 		
-//		Order created = orderService.createOrder(order);
+		Order created = orderService.createOrder(order);
 		
-		return ResponseEntity.status(201).body(null);
+		return ResponseEntity.status(201).body(created);
 	}
 	
 	@DeleteMapping("/order/{id}")
