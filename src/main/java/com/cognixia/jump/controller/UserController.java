@@ -32,10 +32,10 @@ public class UserController {
 		return ResponseEntity.status(200).body(users);
 	}
 	
-	@GetMapping("/user/{id}")
-	public ResponseEntity<?> getUserById(@PathVariable int id) throws Exception{
+	@GetMapping("/user/{userId}")
+	public ResponseEntity<?> getUserById(@PathVariable(value="userId") int userId) throws Exception{
 		
-		User user = userService.getUserById(id);
+		User user = userService.getUserById(userId);
 		
 		return ResponseEntity.status(200).body(user);
 	}
