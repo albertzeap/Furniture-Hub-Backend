@@ -30,11 +30,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.cognixia.jump.filter.JwtRequestFilter;
-import com.cognixia.jump.model.Order;
 import com.cognixia.jump.model.Product;
-import com.cognixia.jump.model.Student;
-import com.cognixia.jump.model.User;
-import com.cognixia.jump.model.User.Role;
 import com.cognixia.jump.service.ProductService;
 
 

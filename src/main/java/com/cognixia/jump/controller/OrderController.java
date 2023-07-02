@@ -31,15 +31,15 @@ public class OrderController {
 	}
 	
 	@GetMapping("/order/{id}")
-	public ResponseEntity<?> getOrderById(@PathVariable int id) {
+	public ResponseEntity<?> getOrderById(@PathVariable int id) throws Exception {
 		
 		Order order = orderService.getOrderById(id);
 		
 		return ResponseEntity.status(200).body(order);
 	}
 	
-	@GetMapping("/order/user/{id}")
-	public ResponseEntity<?> getUserOrders(@PathVariable int userId){
+	@GetMapping("/order/user/{userId}")
+	public ResponseEntity<?> getUserOrders(@PathVariable(value="userId") int userId){
 		
 		List<Order> userOrders = orderService.getUserOrders(userId);
 		

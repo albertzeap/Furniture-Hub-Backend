@@ -25,11 +25,11 @@ public class UserService {
 	public User getUserById(int id) throws Exception {
 		
 		Optional<User> user = userRepo.findById(id);
+		System.out.println("THIS IS THE USER: " +  user.get().toJson());
 		
 		if(user.isEmpty()) {
 			throw new Exception();
 		}
-		
 		return user.get();
 	}
 	
