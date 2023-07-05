@@ -60,10 +60,10 @@ public class OrderService {
 
 	public Order createOrder(Order order) throws Exception {
 		
-//		Optional<User> user = userRepo.findById(order.getUser().getId());
-//		if(user.isEmpty()) {
-//			throw new Exception();
-//		}
+		Optional<User> user = userRepo.findById(order.getUser().getId());
+		if(user.isEmpty()) {
+			throw new Exception();
+		}
 		
 		order.setId(null);
 		
