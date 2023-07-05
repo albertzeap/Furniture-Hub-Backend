@@ -58,7 +58,7 @@ public class OrderController {
 	}
 	
 	@DeleteMapping("/order/{id}")
-	public ResponseEntity<?> deleteOrder(@PathVariable int id){
+	public ResponseEntity<?> deleteOrder(@PathVariable int id) throws Exception{
 		
 		Order deleted = orderService.deleteOrder(id);
 		

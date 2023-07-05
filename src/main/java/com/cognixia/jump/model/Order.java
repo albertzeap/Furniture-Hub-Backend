@@ -33,13 +33,14 @@ public class Order implements Serializable {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
 	private LocalDateTime orderDate;
 	
-	@JsonIgnore
+
 	@ManyToOne
 	@JoinColumn( name = "user_id", referencedColumnName = "id")
 	private User user;	
 
 	@JsonProperty( access = Access.WRITE_ONLY )
 	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+//	@JoinColumn(name=  "product_id", referencedColumnName = "id")
 	private List<Product> products;
 
 	public Order() {

@@ -113,7 +113,7 @@ public class OrderControllerTest {
 //        .andExpect(jsonPath("$[0].orderDate").value(orders.get(0).getOrderDate()))
 //		.andExpect(jsonPath("$[0].products").value(orders.get(0).getProducts()))
 		
-		.andExpect(jsonPath("$[1].id").value(orders.get(1).getId())) 
+		.andExpect(jsonPath("$[1].id").value(orders.get(1).getId())); 
 //        .andExpect(jsonPath("$[1].orderDate").value(orders.get(1).getOrderDate()))
 //		.andExpect(jsonPath("$[1].products").value(orders.get(1).getProducts()));
 		
