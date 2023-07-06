@@ -4,14 +4,15 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -33,13 +34,22 @@ public class Order implements Serializable {
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
 	private LocalDateTime orderDate;
 	
-	@JsonIgnore
+
 	@ManyToOne
 	@JoinColumn( name = "user_id", referencedColumnName = "id")
 	private User user;	
 
-	@JsonProperty( access = Access.WRITE_ONLY )
-	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+//	@JsonProperty( access = Access.WRITE_ONLY )
+//	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+//	@ManyToOne
+//	@JoinColumn(name=  "product_id", referencedColumnName = "id")
+//    @ManyToMany(mappedBy = "orders")
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "order_product",
+        joinColumns = @JoinColumn(name = "order_id"),
+        inverseJoinColumns = @JoinColumn(name = "product_id")
+    )
 	private List<Product> products;
 
 	public Order() {

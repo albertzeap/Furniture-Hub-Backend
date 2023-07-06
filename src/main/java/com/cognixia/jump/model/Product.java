@@ -3,22 +3,20 @@ package com.cognixia.jump.model;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 @Entity
 public class Product implements Serializable{
@@ -31,10 +29,10 @@ public class Product implements Serializable{
 	private Integer id;
 	
 	@NotBlank
-	@Column(nullable = false)
+	@Column(nullable = false, unique = true)
 	private String productName;
 	
-	@NotEmpty
+	@NotNull
 	@Min(value=0)
 	private Integer stock;
 	
@@ -47,16 +45,21 @@ public class Product implements Serializable{
 	@NotBlank
 	private String description;
 	
-	@ManyToOne
-	@JoinColumn(name = "order_id", referencedColumnName = "id")
-	private Order order;
+	@JsonIgnore
+    @ManyToMany
+    @JoinTable(
+        name = "order_product",
+        joinColumns = @JoinColumn(name = "product_id"),
+        inverseJoinColumns = @JoinColumn(name = "order_id")
+    )
+    private List<Order> orders;
 	
 	public Product() {
 		
 	}
 
 	public Product(Integer id, @NotBlank String productName, @NotEmpty @Min(0) Integer stock, @Min(0) double price,
-			@NotBlank String image, @NotBlank String description, Order order) {
+			@NotBlank String image, @NotBlank String description, List<Order> orders) {
 		super();
 		this.id = id;
 		this.productName = productName;
@@ -64,7 +67,7 @@ public class Product implements Serializable{
 		this.price = price;
 		this.image = image;
 		this.description = description;
-		this.order = order;
+		this.orders = orders;
 	}
 
 	public Integer getId() {
@@ -115,18 +118,18 @@ public class Product implements Serializable{
 		this.description = description;
 	}
 
-	public Order getOrder() {
-		return order;
+	public List<Order> getOrders() {
+		return orders;
 	}
 
-	public void setOrder(Order order) {
-		this.order = order;
+	public void setOrder(List<Order> orders) {
+		this.orders = orders;
 	}
 
 	@Override
 	public String toString() {
 		return "Product [id=" + id + ", productName=" + productName + ", stock=" + stock + ", price=" + price
-				+ ", image=" + image + ", description=" + description + ", order=" + order + "]";
+				+ ", image=" + image + ", description=" + description + ", orders=" + orders + "]";
 	}
 
 	public String toJson() {
@@ -136,7 +139,9 @@ public class Product implements Serializable{
 				+ ", \"stock\" : \"" + stock + "\""
 				+ ", \"price\" : \"" + price + "\""
 				+ ", \"image\" : \"" + image + "\""
-				+ ", \"description\" : \"" + description + "\"}";
+				+ ", \"description\" : \"" + description + "\""
+//				+ ", \"description\" : \"" + description + "\"}";
+				+ ", \"orders\" : \"" + orders + "\"}";
 	}
 	
 	

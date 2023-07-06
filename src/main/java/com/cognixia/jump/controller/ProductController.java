@@ -34,7 +34,7 @@ public class ProductController {
 	}
 	
 	@GetMapping("/product/{id}")
-	public ResponseEntity<?> getProductById(@PathVariable int id) {
+	public ResponseEntity<?> getProductById(@PathVariable int id) throws Exception {
 		
 		Product product = productService.getProductById(id);
 		
@@ -43,15 +43,15 @@ public class ProductController {
 	
 	
 	@PostMapping("/product")
-	public ResponseEntity<?> createProduct(@Valid @RequestBody Product product) {
-			
+	public ResponseEntity<?> createProduct(@Valid @RequestBody Product product) throws Exception {
+		
 			Product created = productService.createProduct(product);
 			
 			return ResponseEntity.status(201).body(product);
 	}
 	
 	@PutMapping("/product")
-	public ResponseEntity<?> updateProduct(@Valid @RequestBody Product product){
+	public ResponseEntity<?> updateProduct(@Valid @RequestBody Product product) throws Exception{
 		
 		
 		Product updated = productService.updateProduct(product);
@@ -61,7 +61,7 @@ public class ProductController {
 	}
 	
 	@DeleteMapping("/product")
-	public ResponseEntity<?> deleteProduct(@PathVariable int id){
+	public ResponseEntity<?> deleteProduct(@PathVariable int id) throws Exception{
 		
 		Product deleted = productService.deleteProduct(id);
 		
