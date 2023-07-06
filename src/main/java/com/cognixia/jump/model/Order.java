@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -43,7 +44,7 @@ public class Order implements Serializable {
 //	@ManyToOne
 //	@JoinColumn(name=  "product_id", referencedColumnName = "id")
 //    @ManyToMany(mappedBy = "orders")
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
         name = "order_product",
         joinColumns = @JoinColumn(name = "order_id"),
